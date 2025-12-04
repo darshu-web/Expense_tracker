@@ -58,6 +58,7 @@ To validate the application:
    - Console should show "SENDING EMAIL...".
 6. **Split Expense**: Add expense, enter an email in "Split with".
    - Flash message should confirm the split.
+7. **Report Download**
 
 ## Technical Details
 - **Backend**: Flask
