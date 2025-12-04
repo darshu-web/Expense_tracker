@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Monthly Expense Report</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #333;
+        }
+
+        h1 {
+            color: #00ff88;
+            /* Green accent */
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .total-row {
+            font-weight: bold;
+            background-color: #e6e6e6;
+        }
+
+        .status-exceeded {
+            color: red;
+        }
+
+        .status-warning {
+            color: orange;
+        }
+
+        .status-ok {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Expense Report: {{ month }}/{{ year }}</h1>
+
+    <h2>Summary</h2>
+    <p><strong>Total Spent:</strong> ${{ "%.2f"|format(total_spent) }}</p>
+
+    <h2>Budget vs Actual</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Budget</th>
+                <th>Spent</th>
+                <th>Remaining</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in budget_summary %}
+            <tr>
+                <td>{{ item.category }}</td>
+                <td>${{ "%.2f"|format(item.budget) }}</td>
+                <td>${{ "%.2f"|format(item.spent) }}</td>
+                <td>${{ "%.2f"|format(item.remaining) }}</td>
+                <td class="status-{{ item.status|lower }}">{{ item.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Detailed Expenses</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ expense.category.name }}</td>
+                <td>{{ expense.description }}</td>
+                <td>${{ "%.2f"|format(expense.amount) }}</td>
+            </tr>
+            {% endfor %}
+            <tr class="total-row">
+                <td colspan="3" style="text-align: right;">Total:</td>
+                <td>${{ "%.2f"|format(total_spent) }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
